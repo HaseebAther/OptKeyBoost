@@ -1,6 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
+
+
 
 const AppHeader = () => {
+  const {logout} = useAuth();
+  const navigate = useNavigate();
+    const handleLogout=()=>{
+        logout();
+    setTimeout(()=>{
+        navigate("/login")
+    },1000)
+    }
 
   return (
     <>
@@ -14,8 +25,10 @@ const AppHeader = () => {
           <Link to="/test" className="hover:text-orange-400 transition">Typing Test</Link>
           <Link to="/history" className="hover:text-orange-400 transition">History</Link>
 
-          <button className="ml-4 text-red-400 hover:text-red-500 transition">
-            Logout
+          <button className="ml-4 text-red-400 hover:text-red-500 transition"
+          onClick={handleLogout}
+          >
+            Logout  
           </button>
         </div>
       </div>

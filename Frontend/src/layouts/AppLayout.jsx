@@ -1,8 +1,11 @@
 import AppHeader from "../components/app/AppHeader";
 import AppFooter from "../components/app/AppFooter";
 import { Outlet,Navigate } from "react-router-dom";
-import {isAuthenticated} from   "../context/auth";
+import { useAuth } from "../hooks/useAuth";
+
 const AppLayout = () => {
+   const { isAuthenticated } = useAuth();
+
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
@@ -13,6 +16,7 @@ const AppLayout = () => {
       <AppHeader />
 
       <main className="flex-1 max-w-6xl mx-auto w-full px-6 py-10">
+      
         <Outlet />
       </main>
 
