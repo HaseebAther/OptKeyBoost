@@ -17,16 +17,14 @@ const Login = () => {
 
   async function handleLogin(){
 try {
-   await account.deleteSessions();
+    // await account.deleteSessions();
     const result = await account.createEmailPasswordSession(email, password);
     const user= await account.get();
-
+    // console.log(user);
      login(user);
           setMessage("Login successfully! Redirecting...");
-
-    setTimeout(()=>{
         navigate("/dashboard")
-    },1000)
+
 
    
 } catch (e){

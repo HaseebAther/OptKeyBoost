@@ -4,6 +4,10 @@ export { default as AppFooter } from "./components/app/AppFooter";
 export { default as PublicHeader } from "./components/public/PublicHeader";
 export { default as PublicFooter } from "./components/public/PublicFooter";
 export { default as AuthHeader} from "./components/app/AuthHeader";
+export {default as TypingInput} from "./components/app/typingInput";
+export {default as TypingParagraph} from "./components/app/TypingParagraph";
+export {default as TypingSetting} from "./components/app/typingSetting";
+export {default as TypingStats} from "./components/app/TypingStats";
 
 
 
