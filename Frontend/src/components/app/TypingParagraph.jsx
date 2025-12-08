@@ -1,15 +1,6 @@
-import { useEffect, useState } from "react";
-import para from "../../data/textpara"
+import { useState } from "react";
 const TypingParagraph = () => {
   const [text, setText] = useState("");
-
-  const generate = () => {
-    const len = para.length;
-    const start = Math.floor(Math.random() * (len - 250));
-    const end = start + 100;
-
-    setText(para.substring(start, end));
-  };
 
   return (
     <>
@@ -17,10 +8,7 @@ const TypingParagraph = () => {
         <p className="text-lg leading-relaxed text-gray-300">
           {text}
         </p>
-        <button
-        onClick={generate}
-        >Generate</button>
-      </div>
+       </div>
     </>
   );
 };

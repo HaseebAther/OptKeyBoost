@@ -1,7 +1,7 @@
 import {TypingSetting,TypingParagraph, TypingInput, TypingStats} from "../../index";
 import useTypingLogic from "../../hooks/useTypingLogic"
 const Test = () => {
- const {
+  const {
     paragraph,
     typed,
     errors,
@@ -10,7 +10,6 @@ const Test = () => {
     handleKeyPress,
     generateParagraph
   } = useTypingLogic();
-
   return (
     <>
          <div className="text-white w-full">

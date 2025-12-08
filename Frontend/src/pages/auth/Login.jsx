@@ -17,7 +17,7 @@ const Login = () => {
 
   async function handleLogin(){
 try {
-    // await account.deleteSessions();
+     await account.deleteSessions();
     const result = await account.createEmailPasswordSession(email, password);
     const user= await account.get();
     // console.log(user);
@@ -68,7 +68,7 @@ try {
       </div>
 
       <p className="text-gray-400 mt-4 text-sm">
-        Don’t have an account?{" "}
+        Don't have an account?{" "}
         <Link to="/signup" className="text-orange-400">Sign up</Link>
       </p>
     </>
