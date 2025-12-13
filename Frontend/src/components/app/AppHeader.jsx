@@ -1,16 +1,25 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { Client, Account } from "appwrite";
 
 
 
 const AppHeader = () => {
+
+
   const {logout} = useAuth();
   const navigate = useNavigate();
-    const handleLogout=()=>{
-        logout();
-    setTimeout(()=>{
-        navigate("/login")
-    },1000)
+  
+const client = new Client()
+              .setProject(import.meta.env.VITE_APPWRITE_PROJECT_ID)      
+              .setEndpoint(import.meta.env.VITE_APPWRITE_ENDPOINT);
+
+  const account = new Account(client);
+  
+  async function handleLogout() {
+      await account.deleteSessions();
+logout();
+navigate("/login");
     }
 
   return (
@@ -25,8 +34,9 @@ const AppHeader = () => {
           <Link to="/test" className="hover:text-orange-400 transition">Typing Test</Link>
           <Link to="/history" className="hover:text-orange-400 transition">History</Link>
 
-          <button className="ml-4 text-red-400 hover:text-red-500 transition"
+          <button className="ml-4 text-red-400 hover:text-red-500 transition cursor-pointer"
           onClick={handleLogout}
+
           >
             Logout  
           </button>

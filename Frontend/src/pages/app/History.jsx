@@ -1,30 +1,7 @@
+import useDashboardStats from "../../hooks/useDashStates";
+
 const History = () => {
-  const mockHistory = [
-    {
-      id: 1,
-      wpm: 52,
-      accuracy: 94,
-      errors: 6,
-      date: "2025-01-03",
-      duration: 60,
-    },
-    {
-      id: 2,
-      wpm: 41,
-      accuracy: 89,
-      errors: 11,
-      date: "2025-01-02",
-      duration: 30,
-    },
-    {
-      id: 3,
-      wpm: 67,
-      accuracy: 97,
-      errors: 3,
-      date: "2025-01-01",
-      duration: 120,
-    },
-  ];
+  const { results, loading, error } = useDashboardStats();
 
   return (
     <div className="text-white w-full">
@@ -35,15 +12,19 @@ const History = () => {
       {/* List Container */}
       <div className="bg-[#16161a] rounded-xl border border-[#242428] p-6">
 
-        {mockHistory.length === 0 ? (
+        {loading ? (
+          <p className="text-gray-400 text-center py-10">Loading history…</p>
+        ) : error ? (
+          <p className="text-red-400 text-center py-10">{error}</p>
+        ) : results.length === 0 ? (
           <p className="text-gray-400 text-center py-10">
             No test results found. Start taking tests to track your progress.
           </p>
         ) : (
           <div className="space-y-4">
-            {mockHistory.map((item) => (
+            {results.map((item) => (
               <div
-                key={item.id}
+                key={item.$id || item.id}
                 className="flex items-center justify-between bg-[#0f0f11] p-5 rounded-lg border border-[#242428]"
               >
                 <div>
@@ -56,7 +37,16 @@ const History = () => {
                 </div>
 
                 <div className="text-right">
-                  <p className="text-gray-300 text-sm">{item.date}</p>
+                  <p className="text-gray-300 text-sm">
+                    {item.timestamp
+                      ? new Date(item.timestamp).toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })
+                      : ''}
+                  </p>
                   <p className="text-gray-400 text-xs">
                     Duration: {item.duration}s
                   </p>

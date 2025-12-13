@@ -3,8 +3,9 @@ import { Link,useNavigate } from "react-router-dom";
 import { Client, Account } from "appwrite";
 import { useAuth } from "../../hooks/useAuth";
 const Login = () => {
-   const [email, setEmail]=useState('')
-    const [password,setPassword]= useState('')
+  const [email, setEmail]=useState('')
+   const [password,setPassword]= useState('')
+   const [showPassword, setShowPassword] = useState(false)
      const [message,setMessage]= useState('')
     const navigate= useNavigate();
    const {login} = useAuth();
@@ -15,23 +16,29 @@ const Login = () => {
 
   const account = new Account(client);
 
-  async function handleLogin(){
-try {
-     await account.deleteSessions();
-    const result = await account.createEmailPasswordSession(email, password);
-    const user= await account.get();
-    // console.log(user);
-     login(user);
-          setMessage("Login successfully! Redirecting...");
-        navigate("/dashboard")
+async function handleLogin() {
+  try {
+    const user = await account.get();
 
+    login(user);
+    navigate("/dashboard");
+    return;
 
-   
-} catch (e){
-  setMessage(e.message || "Error creating account.");
-  
-}
+  } catch {
+    try {
+      await account.createEmailPasswordSession(email, password);
+      const user = await account.get();
+
+      login(user);
+      setMessage("Login successful! Redirecting...");
+      navigate("/dashboard");
+
+    } catch (e) {
+      setMessage(e.message || "Login failed.");
+    }
   }
+}
+
   return (
     <>
        <h1 className="text-3xl font-semibold text-orange-400 mb-6">Login</h1>
@@ -51,14 +58,24 @@ try {
           onChange={(e)=>setEmail(e.target.value)}  
         />
 
-        <input
-           type="password"
-          placeholder="Password"
+        <div className="relative">
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
             name="userPassword"
-          value={password}
-          className="bg-gray-800 p-3 rounded-lg border border-gray-700 focus:outline-none focus:border-orange-400"
-          onChange={(e)=>setPassword(e.target.value)}
-        />
+            value={password}
+            className="bg-gray-800 p-3 pr-10 w-full rounded-lg border border-gray-700 focus:outline-none focus:border-orange-400"
+            onChange={(e)=>setPassword(e.target.value)}
+          />
+          <button
+            type="button"
+            aria-label={showPassword ? "Hide password" : "Show password"}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-orange-400 transition cursor-pointer"
+            onClick={() => setShowPassword((v) => !v)}
+          >
+            {showPassword ? "🙈" : "👁️"}
+          </button>
+        </div>
 
         <button className="bg-orange-500 hover:bg-orange-600 transition p-3 rounded-lg font-medium"
         onClick={handleLogin}
